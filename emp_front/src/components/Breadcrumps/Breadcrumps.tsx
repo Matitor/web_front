@@ -1,20 +1,33 @@
-import React from "react";
-import styles from "./button.module.scss";
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  /** Состояние загрузки */
-  loading?: boolean;
-  /** Текст кнопки */
-  children: React.ReactNode;
-  state?: boolean;
+import { Link, useLocation } from "react-router-dom";
+
+import styles from "./Breadcrumps.module.scss";
+
+const Breadcrumps = () => {
+  const location = useLocation();
+
+  let currentLink = "";
+
+  const crumps = location.pathname
+    .split("/")
+    .filter((crump) => crump !== "")
+    .map((crump) => {
+      currentLink += `/${crump}`;
+
+      return (
+        <div className={styles.crump} key={crump}>
+          <Link to={currentLink}>{crump}</Link>
+        </div>
+      );
+    });
+
+  return (
+    <div className={styles.breadcrumps}>
+      <div className={styles.crump}>
+        <Link to={"/"}>Main</Link>
+      </div>
+      {crumps}
+    </div>
+  );
 };
 
-const Button: React.FC<ButtonProps> = ({
-  children,
-  onClick,
-  className,
-  ...rest
-}) => {
-  return <button className={styles.button}>{children}</button>;
-};
-
-export default Button;
+export default Breadcrumps;
