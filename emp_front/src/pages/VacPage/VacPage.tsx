@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
 import Header from '../../components/Header';
 import styles from './VacPage.module.scss';
 import Image from 'react-bootstrap/Image'
@@ -33,7 +31,6 @@ const VacPage: React.FC = () => {
       fetch(url) //!!!!!!!!!!!!!!!
       .then((response) => response.json())
       .then((data) => {
-        const options = data.vacancy;
         setVacancy(data);
       })
       .catch(() => {

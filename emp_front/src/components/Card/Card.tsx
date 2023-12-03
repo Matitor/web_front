@@ -4,7 +4,6 @@ import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import styles from './Card.module.scss';
-import { createRenderer } from 'react-dom/test-utils';
 
 export type CardProps = {
   id: number,
@@ -36,7 +35,7 @@ const OneCard: React.FC<CardProps> = ({id,pic,name,desc,price_min,price_max,comp
         {company}
         </Card.Text>
         <Link to={`/vacancy/${id}`}>
-          <Button className={styles.card__button} variant="primary">Подробнее</Button>
+          <Button onClick={onButtonClick} className={styles.card__button} variant="primary">Подробнее</Button>
         </Link>
       </Card.Body>
     </Card>

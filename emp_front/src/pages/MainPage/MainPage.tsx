@@ -3,7 +3,6 @@ import { ChangeEvent } from 'react';
 // import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
 import Header from '../../components/Header';
 import Card from '../../components/Card';
 import styles from './MainPage.module.scss';
