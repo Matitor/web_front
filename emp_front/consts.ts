@@ -4,7 +4,7 @@ export const mockVacancies=[
       'name':"Удаленный менеджер",
       'desc':"I и II группа инвалидности",
       //'price_min':0,
-      'price_max':100000,
+      'price_max':100001,
       'company':"СТМ",
       'pic':'https://n1s1.hsmedia.ru/1b/82/c9/1b82c9aac6e41921ed01374f34460385/728x409_1_99148d7b32664c7ac46fce01d179107a@1000x562_0xac120004_12179747151686632741.jpeg',
       'adress':"Москва, дом пушкина",

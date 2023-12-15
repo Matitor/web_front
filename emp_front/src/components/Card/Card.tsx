@@ -34,7 +34,7 @@ const OneCard: React.FC<CardProps> = ({id,pic,name,desc,price_min,price_max,comp
         <Card.Text className={styles.card__container_company}>
         {company}
         </Card.Text>
-        <Link to={`/vacancy/${id}`}>
+        <Link to={`/vacancies/${id}`}>
           <Button onClick={onButtonClick} className={styles.card__button} variant="primary">Подробнее</Button>
         </Link>
       </Card.Body>

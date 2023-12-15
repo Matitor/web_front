@@ -5,7 +5,6 @@ import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card';
 import { useParams } from 'react-router-dom';
 import {mockVacancies} from '../../../consts'
-import Breadcrumps from '../../components/Breadcrumps';
 export type Vacancy = {
   id:number;
   name:string;
@@ -49,7 +48,6 @@ const VacPage: React.FC = () => {
     return (
       <div >
       <Header/>
-      <Breadcrumps/>
       <Card className={styles.card}>
       <Image className={styles.card__image}  src={vacancy?.pic ? vacancy?.pic : "https://www.solaredge.com/us/sites/nam/files/Placeholders/Placeholder-4-3.jpg"}/>
       <Card.Header className={styles.card__container_name}>{vacancy?.name}</Card.Header>
