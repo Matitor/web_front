@@ -15,14 +15,17 @@ export type CardProps = {
   company?:string,
   onButtonClick?: React.MouseEventHandler;
   onImageClick?: React.MouseEventHandler;
+  isUserAuth: boolean;
 };
 
-const OneCard: React.FC<CardProps> = ({id,pic,name,desc,price_min,price_max,company, onButtonClick, onImageClick }) => {
+const OneCard: React.FC<CardProps> = ({id,pic,name,desc,price_min,price_max,company, onButtonClick, onImageClick,isUserAuth }) => {
   
   return (
     <Card className={styles.card}>
+      <Link to={`/vacancies/${id}`}>
       <Image className={styles.card__image} onClick={onImageClick} src={pic ? pic : "https://www.solaredge.com/us/sites/nam/files/Placeholders/Placeholder-4-3.jpg"}/>
       <Card.Header className={styles.card__container_name}>{name}</Card.Header>
+      </Link>
       <Card.Body>
         <Card.Title className={styles.card__container_price}>{price_min && price_max &&<div>{price_min} - {price_max} ₽</div>}</Card.Title>
         <Card.Title className={styles.card__container_price}>{!price_min && price_max &&<div>до {price_max} ₽</div>}</Card.Title>
@@ -34,10 +37,11 @@ const OneCard: React.FC<CardProps> = ({id,pic,name,desc,price_min,price_max,comp
         <Card.Text className={styles.card__container_company}>
         {company}
         </Card.Text>
-        <Link to={`/vacancies/${id}`}>
-          <Button onClick={onButtonClick} className={styles.card__button} variant="primary">Подробнее</Button>
-        </Link>
+        
+        {isUserAuth && <Button onClick={onButtonClick} className={styles.card__button} variant="primary">Подробнее</Button>}
+        
       </Card.Body>
+      
     </Card>
   );
 }

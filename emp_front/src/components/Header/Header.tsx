@@ -9,8 +9,7 @@ import { useVacancyFromAnsw} from "../../slices/AnswSlice";
 const cookies = new Cookies();
 import Cookies from "universal-cookie";
 import { toast } from 'react-toastify';
-import { motion, AnimatePresence } from "framer-motion";
-import ProfileWindow from '../ProfileWindow/ProfileWindow.tsx';
+
 const Header: React.FC = () => {
   const dispatch = useDispatch();
     const [isProfileButtonClicked, setIsProfileButtonClicked] = useState(false);
@@ -57,13 +56,8 @@ const Header: React.FC = () => {
     return (
         <div className={styles.header}>
             <div className={styles.header__wrapper}>
-
-                {/* <div className={styles.header__blocks}>
-                    <Link className={styles.header__block} to='/'>Виды абонементов</Link>
-                    <Link className={styles.header__block} to='/'>Выгодные предложения</Link>
-                    <Link className={styles.header__block} to='/'>О нас</Link>
-                    <Link className={styles.header__block} to='/'>Поддержка</Link>
-                </div> */}
+            {isUserAuth && <Link to="/answs" className={styles.header__profile}>Список откликов</Link>}
+            {isUserAuth &&  <Link to="/answ" className={styles.header__profile}>Отклик</Link>}
                 {isUserAuth && (
             <div className={styles.header__profile} onClick={handleSubmit}>
               Выход

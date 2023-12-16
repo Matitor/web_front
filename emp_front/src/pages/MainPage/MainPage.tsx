@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ChangeEvent } from 'react';
+import { toast } from 'react-toastify';
 // import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -11,6 +12,7 @@ import BreadCrumbs from '../../components/BreadCrumbs';
 import {useDispatch} from "react-redux";
 import {useVac,  useTitleValue, setTitleValueAction, setVacAction} from "../../slices/MainSlice";
 import axios from 'axios';
+import { useIsAuth} from "../../slices/AuthSlice";
 import { useLinksMapData, setLinksMapDataAction } from "../../slices/DetaildSlice";
 import {setCurrentAnswIdAction, useCurrentAnswId} from "../../slices/AnswSlice";
 import { useVacancyFromAnsw, setVacancyFromAnswAction } from '../../slices/AnswSlice';
@@ -52,6 +54,7 @@ const MainPage: React.FC = () => {
     const titleValue = useTitleValue();
     const vacancies = useVac();
     const VacancyFromAnsw = useVacancyFromAnsw();
+    const isUserAuth = useIsAuth();
     const linksMap = useLinksMapData();
     React.useEffect(() => {
       dispatch(setLinksMapDataAction(new Map<string, string>([
@@ -61,10 +64,11 @@ const MainPage: React.FC = () => {
     
   const getCurrentAnsw = async (id: number) => {
     try {
-      const response = await axios(`http://localhost:8000/answer/${id}/`, {
+      const response = await axios(`http://localhost:8000/answer/${id}`, {
         method: 'GET',
         withCredentials: true,
       })
+      
       const newArr = response.data.vacancies.map((raw: ReceivedVacData) => ({
         id: raw.id,
             name: raw.name,
@@ -75,7 +79,7 @@ const MainPage: React.FC = () => {
             pic: raw.pic,
             status:raw.status
     }));
-  
+   
     dispatch(setVacancyFromAnswAction(newArr))
 } catch(error) {
   throw error;
@@ -93,11 +97,12 @@ const getVacancies = async () => {
             withCredentials: true 
         });
         console.log("here")
-        if (response.data.resp_id) {
-            getCurrentAnsw(response.data.resp_id);
-            dispatch(setCurrentAnswIdAction(response.data.resp_id))
+        if (response.data.answer) {
+            getCurrentAnsw(response.data.answer);
+            dispatch(setCurrentAnswIdAction(response.data.answer))
+            
         }
-        const jsonData = response.data.vacancies;
+        const jsonData = response.data.vacancy;
         const newArr = jsonData.map((raw: ReceivedVacData) => ({
           id: raw.id,
           name: raw.name,
@@ -121,7 +126,39 @@ const getVacancies = async () => {
         }
     }
 };
-
+const postVacancyToAnsw = async (id: number) => {
+  try {
+      const response = await axios(`http://localhost:8000/vacancies/${id}/put`, {
+          method: 'POST',
+          withCredentials: true,
+      })
+      const addedVacancy= {
+          id:response.data.id,
+          name:response.data.name,
+          desc:response.data.desc,
+          price_min:response.data.price_min,
+          price_max:response.data.price_max,
+          company:response.data.company,
+          pic:response.data.pic,
+          status:response.data.status,
+          total_desk:response.data.total_desk,
+          adress:response.data.adress
+      }
+      console.log('123')
+      console.log(response)
+      dispatch(setVacancyFromAnswAction([...VacancyFromAnsw, addedVacancy]))
+      toast.success("Вакансия успешно добавлена в отклик!");
+  } catch (error) {
+      if (error instanceof Error) {
+          // Если error является экземпляром класса Error
+          toast.error("Вакансия уже добавлена в отклик");
+      } else {
+          // Если error не является экземпляром класса Error (что-то другое)
+          toast.error('Ошибка при добавлении');
+      }
+  }
+  getVacancies();
+}
 
 const handleSearchButtonClick = () => {
     getVacancies();
@@ -145,7 +182,7 @@ const handleTitleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
               <div className={styles.page__content}>
                   {
                   vacancies.map((vac: Vacancy) => (
-                      <Card id={vac.id} desc={vac.desc} name={vac.name} company={vac.company} price_min={vac.price_min} price_max={vac.price_max} pic={vac.pic} onButtonClick={() => console.log('!')}></Card>
+                      <Card id={vac.id} desc={vac.desc} name={vac.name} company={vac.company} price_min={vac.price_min} price_max={vac.price_max} pic={vac.pic} isUserAuth={isUserAuth} onButtonClick={() => postVacancyToAnsw(vac.id)}></Card>
                   ))}
               </div>
           {vacancies.length === 0 && <p > <big>таких вакансий нет</big></p>}

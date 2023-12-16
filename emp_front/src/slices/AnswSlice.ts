@@ -64,7 +64,7 @@ export const useCurrentAnswDate = () =>
 export const useVacancyFromAnsw = () =>
   useSelector((state: { answData: DataState }) => state.answData.vacancyFromAnsw);
 
-export const useResp = () =>
+export const useAnsw = () =>
   useSelector((state: { answData: DataState }) => state.answData.answ);
 
 export const {
