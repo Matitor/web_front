@@ -76,13 +76,9 @@ const AnswListPage = () => {
             <div className={styles['applications__page-wrapper']}>
                 <BreadCrumbs links={linksMap}></BreadCrumbs>
                 <h1 className={styles['applications__page-title']}>История ваших откликов</h1>
-                <h5 className={styles['applications__page-subtitle']}>
-                Вы можете посмотреть информацию о каждом отклике, а также добавленные в него вакансии
-                </h5>
+               
                 <AnswTab answ={answ}/>
-                <ModalWindow handleBackdropClick={() => setIsModalWindowOpened(false)} className={styles.modal} active={isModalWindowOpened}>
-                    <h3 className={styles.modal__title}>Регистрация прошла успешно!</h3>
-                </ModalWindow>
+                
             </div>
         </div>
     )

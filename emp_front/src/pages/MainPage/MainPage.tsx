@@ -128,7 +128,7 @@ const getVacancies = async () => {
 };
 const postVacancyToAnsw = async (id: number) => {
   try {
-      const response = await axios(`http://localhost:8000/vacancies/${id}/put`, {
+      const response = await axios(`http://localhost:8000/vacancies/${id}/post`, {
           method: 'POST',
           withCredentials: true,
       })

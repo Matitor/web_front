@@ -141,7 +141,7 @@ function App() {
               {isAuth && <Route path="/answs">
                 <Route path=":id" element={<AnswPage />} />
               </Route>}
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/vacancies" replace />} />
           </Routes>
       </HashRouter>
       <ToastContainer autoClose={1500} pauseOnHover={false} />

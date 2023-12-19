@@ -19,7 +19,7 @@ const BreadCrumbs: React.FC<BreadCrumbsProps> = ({links}) => {
           {key}
         </Link>
         {index !== links.size - 1 && 
-        <span className={styles['breadcrumbs__item-icon']}></span>}
+        <span className={styles['breadcrumbs__item-icon']}>/</span>}
       </span>
     ))}
   </div>

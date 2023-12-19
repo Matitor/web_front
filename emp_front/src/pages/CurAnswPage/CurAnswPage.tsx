@@ -29,7 +29,7 @@ const CurrentAnswPage = () => {
 
   React.useEffect(() => {
     dispatch(setLinksMapDataAction(new Map<string, string>([
-      ['Текущий отклик', '/answs']
+      ['Текущий отклик', '/answ']
   ])))
   if (currentAnswId) {getAnsw(currentAnswId)}
   }, [])
@@ -103,9 +103,7 @@ const CurrentAnswPage = () => {
         </h1>
 
         {vacancies.length !=0 ? <div>
-          <h5 className={styles['application__page-subtitle']}>
-            У вас есть возможность удалять вакансии из заявки, удалить всю заявку или отправить заявку на проверку
-          </h5>
+          
 
           <div className={styles['application__page-info']}>
             <h3 className={styles['application__page-info-title']}>Ваши вакансии:</h3>

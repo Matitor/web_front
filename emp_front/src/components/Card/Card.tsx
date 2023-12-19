@@ -38,7 +38,7 @@ const OneCard: React.FC<CardProps> = ({id,pic,name,desc,price_min,price_max,comp
         {company}
         </Card.Text>
         
-        {isUserAuth && <Button onClick={onButtonClick} className={styles.card__button} variant="primary">Подробнее</Button>}
+        {isUserAuth && <Button onClick={onButtonClick} className={styles.card__button} variant="primary">Откликнутся</Button>}
         
       </Card.Body>
       
