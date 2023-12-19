@@ -7,7 +7,7 @@ import Header from '../../components/Header';
 import Card from '../../components/Card';
 import styles from './MainPage.module.scss';
 import {mockVacancies} from '../../../consts'
-import Breadcrumps from '../../components/Breadcrumps';
+import BreadCrumbs from '../../components/Breadcrumps';
 
 export type Vacancy = {
     id:number;
@@ -26,7 +26,7 @@ const MainPage: React.FC = () => {
     const[vacancy,setVacancy]=useState<Vacancy[]>([]);
     const[searchValue,setSearchValue]=useState("");
     const fetchVacancy=async()=>{
-
+    
       let url = 'http://127.0.0.1:8000/vacancies'
       if(searchValue){
         url+=`?name=${searchValue}`
@@ -62,11 +62,14 @@ const MainPage: React.FC = () => {
     useEffect(()=>{
       fetchVacancy();
     },[]);
+    const linksMap = new Map<string, string>([
+      ['Вакансии', '/']
+  ]);
     return (
       <div className={styles.page}>
       <Header/>
       <div>
-      <Breadcrumps />
+      <BreadCrumbs links={linksMap}></BreadCrumbs>
       </div>
               <Form>
                   <Form.Control className={styles.page__input} value={searchValue} onChange={handleTitleValueChange} type="text" placeholder="Профессия..."/>

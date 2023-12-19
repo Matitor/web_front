@@ -5,7 +5,7 @@ import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card';
 import { useParams } from 'react-router-dom';
 import {mockVacancies} from '../../../consts'
-import Breadcrumps from '../../components/Breadcrumps';
+import BreadCrumbs from '../../components/Breadcrumps';
 export type Vacancy = {
   id:number;
   name:string;
@@ -23,7 +23,9 @@ export type Vacancy = {
 const VacPage: React.FC = () => {
     const params = useParams();
     const id = params.id === undefined ? '' : params.id;
-
+    const [linksMap, setLinksMap] = useState<Map<string, string>>(
+      new Map<string, string>([['Вакансии', '/']])
+  );
     const[vacancy,setVacancy]=useState<Vacancy>();
     const fetchVacancy=async()=>{
 
@@ -32,11 +34,15 @@ const VacPage: React.FC = () => {
       .then((response) => response.json())
       .then((data) => {
         setVacancy(data);
+        const newLinksMap = new Map<string, string>(linksMap);
+      newLinksMap.set(data.name, '/vacancy/' + id);
+            setLinksMap(newLinksMap)
       })
       .catch(() => {
         createMock();
       });
       //createMock()
+      
     }
     const createMock=()=>{
       const vacc = mockVacancies.find(item => item.id === Number(id));
@@ -49,7 +55,7 @@ const VacPage: React.FC = () => {
     return (
       <div >
       <Header/>
-      <Breadcrumps/>
+      <BreadCrumbs links={linksMap}></BreadCrumbs>
       <Card className={styles.card}>
       <Image className={styles.card__image}  src={vacancy?.pic ? vacancy?.pic : "https://www.solaredge.com/us/sites/nam/files/Placeholders/Placeholder-4-3.jpg"}/>
       <Card.Header className={styles.card__container_name}>{vacancy?.name}</Card.Header>
