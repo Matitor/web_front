@@ -40,6 +40,7 @@ const VacPage: React.FC = () => {
       })
       .catch(() => {
         createMock();
+        
       });
       //createMock()
       
@@ -47,6 +48,9 @@ const VacPage: React.FC = () => {
     const createMock=()=>{
       const vacc = mockVacancies.find(item => item.id === Number(id));
             setVacancy(vacc)
+            const newLinksMap = new Map<string, string>(linksMap);
+            newLinksMap.set('подробнее', '/vacancy/' + id);
+            setLinksMap(newLinksMap)
       }
     useEffect(()=>{
       fetchVacancy();
