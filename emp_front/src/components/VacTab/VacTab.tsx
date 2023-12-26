@@ -52,9 +52,9 @@ const VacancyTable: React.FC<VacTableProps> = ({vacancies, className, flag}) => 
 
   return (
     <div className={styles.table__container}>
-      <Table responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
+      <Table responsive borderless className={styles.table__container} >
         <thead>
-          <tr className={styles.tableHead}>
+          <tr className={styles.table__container}>
             <th>№</th>
             <th>Название</th>
             <th>Компания</th>
@@ -62,7 +62,7 @@ const VacancyTable: React.FC<VacTableProps> = ({vacancies, className, flag}) => 
             {!flag && <th></th>}
           </tr>
         </thead>
-        <tbody>
+        <tbody className={styles.table__container}>
           {vacancies.map((vacancy: VacancyData, index: number) => (
             <tr key={vacancy.id}>
               <td>{++index}</td>

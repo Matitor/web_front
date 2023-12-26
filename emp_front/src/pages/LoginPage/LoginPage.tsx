@@ -87,21 +87,21 @@ const LoginPage: React.FC = () => {
     }, [emailError, passwordError])
 
     return (
-        <div className='login__page'>
+        <div className={styles.login__page}>
             <Header/>
             <div style={{position: 'relative'}}className={styles['login__page-wrapper']}>
                 <Form onSubmit={handleFormSubmit}
                 className={styles['form']}>
                     <h3 className={styles['login__page-title']}>Вход</h3>
                     <div className={styles.form__item}>
-                        <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
-                            <Form.Control value={emailValue} onChange={handleEmailValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
+                        <Form.Group style={{height: 50,backgroundColor:'#e7e5e5'}} className='w-100 mb-3' controlId="search__sub.input__sub">
+                            <Form.Control value={emailValue} onChange={handleEmailValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18,backgroundColor:'#e7e5e5'}} type="email" placeholder="E-mail..." />
                             <span className={styles['form__item-error']}>{emailError !== "init" && emailError}</span>
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
-                            <Form.Control value={passwordValue} onChange={handlePasswordValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="password" placeholder="Пароль..." />
+                            <Form.Control value={passwordValue} onChange={handlePasswordValueChange} style={{height: '100%', borderColor: '#3D348B', fontSize: 18,backgroundColor:'#e7e5e5'}} type="password" placeholder="Пароль..." />
                             <span className={styles['form__item-error']}>{passwordError !== 'init' && passwordError}</span>
                         </Form.Group>
                     </div>

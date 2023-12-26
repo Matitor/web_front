@@ -23,10 +23,15 @@ interface AnswData {
 
 
 interface DataState {
-  currentAnswId: number | null;
+  currentAnswId?: number | null;
   currentAnswDate: string;
   vacancyFromAnsw: VacData[];
   answ: AnswData[];
+  userName?: string,
+  status?: string,
+  end?: string,
+  start?: string
+  
 }
 
 const dataSlice = createSlice({
@@ -35,11 +40,16 @@ const dataSlice = createSlice({
     currentAnswId: null,
     currentAnswDate: '',
     vacancyFromAnsw: [],
-    answ: []
+    answ: [],
+    userName: undefined,
+    start: undefined,
+    end: undefined,
+    status:undefined,
   } as DataState,
   reducers: {
-    setCurrentAnswId(state, action: PayloadAction<number>) {
+    setCurrentAnswId(state, action: PayloadAction<number| null |undefined>) {
       state.currentAnswId = action.payload;
+      console.log("Current_Answ_id:", action.payload)
     },
     setCurrentAnswDate(state, action: PayloadAction<string>) {
       state.currentAnswDate = action.payload;
@@ -51,7 +61,20 @@ const dataSlice = createSlice({
     setAnsw(state, action: PayloadAction<AnswData[]>) {
       state.answ = action.payload;
       console.log('answ is', action.payload)
-    }
+    },
+    setCurrentUserFilter(state, action: PayloadAction<string>) {
+      state.userName = action.payload;
+    },
+    setStartFilter(state, action: PayloadAction<string>) {
+      state.start = action.payload;
+    },
+    setEndFilter(state, action: PayloadAction<string>) {
+      state.end = action.payload;
+    },
+    setStatusFilter(state, action: PayloadAction<string>) {
+      state.status = action.payload;
+    },
+    
   },
 });
 
@@ -66,12 +89,24 @@ export const useVacancyFromAnsw = () =>
 
 export const useAnsw = () =>
   useSelector((state: { answData: DataState }) => state.answData.answ);
+  export const useStartFilter = () =>
+  useSelector((state: { respData: DataState }) => state.respData.start);
 
+export const useEndFilter = () =>
+  useSelector((state: { respData: DataState }) => state.respData.end);
+export const useStatusFilter = () =>
+  useSelector((state: { respData: DataState }) => state.respData.status);
+export const useCurrentUserFilter = () =>
+  useSelector((state: { respData: DataState }) => state.respData.userName);
 export const {
     setCurrentAnswId: setCurrentAnswIdAction,
     setCurrentAnswDate: setCurrentAnswDateAction,
     setVacancyFromAnsw: setVacancyFromAnswAction,
-    setAnsw: setAnswAction
+    setAnsw: setAnswAction,
+    setCurrentUserFilter: setCurrentUserFilterAction,
+    setStartFilter: setStartFilterAction,
+    setEndFilter: setEndilterAction,
+    setStatusFilter: setStatusFilterAction,
 
 } = dataSlice.actions;
 

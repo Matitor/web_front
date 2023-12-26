@@ -30,7 +30,7 @@ const dataSlice = createSlice({
         state.vacancy = action.payload
     },
     setLinksMapData(state, action: PayloadAction<Map<string, string>>) {
-      console.log(action.payload)
+    
       state.LinksMapData = action.payload
   },
   },

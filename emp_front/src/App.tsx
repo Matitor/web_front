@@ -94,29 +94,29 @@ function App() {
     }
 };
 
-//const getCurrentAnsw = async (id: number) => {
-//  try {
-//    const response = await axios(`http://localhost:8000/answer/${id}`, {
-//      method: 'GET',
-//      withCredentials: true,
-//    })
-//    dispatch(setCurrentAnswDateAction(response.data.application.creation_date))
-//    const newArr = response.data.subscriptions.map((raw: ReceivedVacData) => ({
-//      id: raw.id,
-//            name: raw.name,
-//            desc: raw.desc,
-//            price_min: raw.price_min,
-//            price_max: raw.price_max,
-//            company: raw.company,
-//            pic: raw.pic,
-//            status:raw.status
-//  }));
+const getCurrentAnsw = async (id: number) => {
+  try {
+    const response = await axios(`http://localhost:8000/answer/${id}`, {
+      method: 'GET',
+      withCredentials: true,
+    })
+    dispatch(setCurrentAnswDateAction(response.data.application.creation_date))
+    const newArr = response.data.subscriptions.map((raw: ReceivedVacData) => ({
+      id: raw.id,
+            name: raw.name,
+            desc: raw.desc,
+            price_min: raw.price_min,
+            price_max: raw.price_max,
+            company: raw.company,
+            pic: raw.pic,
+            status:raw.status
+  }));
 
-//  dispatch(setVacancyFromAnswAction(newArr))
-//  } catch(error) {
-//    throw error;
-//  }
-//}
+  dispatch(setVacancyFromAnswAction(newArr))
+  } catch(error) {
+    throw error;
+  }
+}
 
   React.useEffect(() => {
     if (cookies.get("session_id")) {
@@ -136,7 +136,7 @@ function App() {
               </Route>
               {!isAuth && <Route path='/registration' element={<RegistrationPage/>}></Route>}
               {!isAuth && <Route path='/login' element={<LoginPage/>}></Route>}
-              {isAuth && <Route path='/answ' element={<CurAnswPage/>}/>}
+              {/*{isAuth && <Route path='/answ' element={<CurAnswPage/>}/>}*/}
               {isAuth && <Route path='/answs' element={<AnswerListPage/>}></Route>}
               {isAuth && <Route path="/answs">
                 <Route path=":id" element={<AnswPage />} />

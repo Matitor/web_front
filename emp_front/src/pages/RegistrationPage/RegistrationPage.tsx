@@ -93,13 +93,13 @@ const RegistrationPage: React.FC = () => {
                     <h3 className={styles['registration__page-title']}>Регистрация</h3>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
-                            <Form.Control onChange={handleEmailValueChange} value={emailValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="email" placeholder="E-mail..." />
+                            <Form.Control onChange={handleEmailValueChange} value={emailValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18,backgroundColor:'#e7e5e5'}} type="email" placeholder="E-mail..." />
                             <span className={styles['form__item-error']}>{emailError !== 'init' && emailError}</span>
                         </Form.Group>
                     </div>
                     <div className={styles.form__item}>
                         <Form.Group style={{height: 50}} className='w-100 mb-3' controlId="search__sub.input__sub">
-                            <Form.Control onChange={handlePasswordValueChange} value={passwordValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18}} type="password" placeholder="Пароль..." />
+                            <Form.Control onChange={handlePasswordValueChange} value={passwordValue} style={{height: '100%', borderColor: '#3D348B', fontSize: 18,backgroundColor:'#e7e5e5'}} type="password" placeholder="Пароль..." />
                             <span className={styles['form__item-error']}>{passwordError !== 'init' && passwordError}</span>
                         </Form.Group>
                     </div>

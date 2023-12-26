@@ -75,7 +75,6 @@ const AnswListPage = () => {
             <Header/>
             <div className={styles['applications__page-wrapper']}>
                 <BreadCrumbs links={linksMap}></BreadCrumbs>
-                <h1 className={styles['applications__page-title']}>История ваших откликов</h1>
                
                 <AnswTab answ={answ}/>
                 

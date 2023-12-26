@@ -53,14 +53,18 @@ const MainPage: React.FC = () => {
   const dispatch = useDispatch()
     const titleValue = useTitleValue();
     const vacancies = useVac();
-    const VacancyFromAnsw = useVacancyFromAnsw();
+    const vacancyFromAnsw = useVacancyFromAnsw();
     const isUserAuth = useIsAuth();
     const linksMap = useLinksMapData();
+    const answ = useCurrentAnswId();
     React.useEffect(() => {
       dispatch(setLinksMapDataAction(new Map<string, string>([
           ['Вакансии', '/vacancies']
       ])))
-  }, [])
+      const storedVacancyFromAnsw = localStorage.getItem('vacancyFromAnsw');
+            if (storedVacancyFromAnsw) {
+                dispatch(setVacancyFromAnswAction(JSON.parse(storedVacancyFromAnsw)));
+  }}, [])
     
   const getCurrentAnsw = async (id: number) => {
     try {
@@ -79,8 +83,10 @@ const MainPage: React.FC = () => {
             pic: raw.pic,
             status:raw.status
     }));
-   
+    const answ_id = response.data.answ.id
     dispatch(setVacancyFromAnswAction(newArr))
+    console.log(answ_id)
+    dispatch(setCurrentAnswIdAction(answ_id))
 } catch(error) {
   throw error;
 }
@@ -144,10 +150,10 @@ const postVacancyToAnsw = async (id: number) => {
           total_desk:response.data.total_desk,
           adress:response.data.adress
       }
-      console.log('123')
-      console.log(response)
-      dispatch(setVacancyFromAnswAction([...VacancyFromAnsw, addedVacancy]))
+      dispatch(setVacancyFromAnswAction([...vacancyFromAnsw, addedVacancy]))
+      localStorage.setItem('vacancyFromAnsw', JSON.stringify([...vacancyFromAnsw, addedVacancy]));
       toast.success("Вакансия успешно добавлена в отклик!");
+      getVacancies();
   } catch (error) {
       if (error instanceof Error) {
           // Если error является экземпляром класса Error
@@ -157,7 +163,7 @@ const postVacancyToAnsw = async (id: number) => {
           toast.error('Ошибка при добавлении');
       }
   }
-  getVacancies();
+  
 }
 
 const handleSearchButtonClick = () => {

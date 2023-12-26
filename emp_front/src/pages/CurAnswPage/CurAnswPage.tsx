@@ -70,7 +70,7 @@ const CurrentAnswPage = () => {
 
   const deleteResp = async () => {
     try {
-      const response = await axios(`http://localhost:8000/answer/del`, {
+      const response = await axios(`http://localhost:8000/answer`, {
       method: 'DELETE',
       withCredentials: true
     })
