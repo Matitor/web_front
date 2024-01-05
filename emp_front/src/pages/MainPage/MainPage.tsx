@@ -26,8 +26,8 @@ const MainPage: React.FC = () => {
     const[vacancy,setVacancy]=useState<Vacancy[]>([]);
     const[searchValue,setSearchValue]=useState("");
     const fetchVacancy=async()=>{
-    
-      let url = 'http://127.0.0.1:8000/vacancies'
+      console.log('!!')
+      let url = 'http://127.0.0.1:8000/vacancies/'
       if(searchValue){
         url+=`?name=${searchValue}`
       }
