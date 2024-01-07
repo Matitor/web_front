@@ -1,10 +1,11 @@
 
 .table__container {
+  background-color: #e7e5e5;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Это обеспечит центрирование по вертикали на всю высоту окна */
+  height: 70vh; /* Это обеспечит центрирование по вертикали на всю высоту окна */
 }
 
 // thead {
@@ -14,19 +15,22 @@
 //     background-color: red;
 //   }
 
-// .table {
-//     &__container {
-//         max-height: 400px;
-//         overflow-y: auto;
-//         border-radius: 10px;
-//     }
+ .table {
+  background-color: #e7e5e5;
+     &__container {
+        // max-height: 400px;
+         overflow-y: auto;
+         border-radius: 10px;
+         background-color: #e7e5e5;
+     }
 
-//     padding: 20px;
+     padding: 20px;
 
-//     &__head {
-//         padding: 20px;
-//     }
-
+     &__head {
+         padding: 20px;
+         background-color: #e7e5e5;
+     }
+    }
 //     &__btn:hover {
 //         background-color: #0b5ed7 !important;
 //     }

@@ -56,7 +56,7 @@ const AnswPage = () => {
         
         try {
           axios(`http://localhost:8000/async_task/${id}`, {
-                method: 'GET',
+                method: 'PUT',
                 withCredentials: true,
           });
           console.log("отправили запрос")

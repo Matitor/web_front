@@ -8,7 +8,7 @@ import styles from './LoginPage.module.scss'
 import axios, { AxiosResponse } from 'axios';
 import { ChangeEvent } from 'react';
 import {useDispatch} from "react-redux";
-import { setUserAction, setIsAuthAction } from "../../slices/AuthSlice";
+import { setUserAction, setIsAuthAction, setIsModAction } from "../../slices/AuthSlice";
 import {toast } from 'react-toastify';
 
 
@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
             console.log(response.data)
 
             dispatch(setIsAuthAction(true))
-
+            dispatch(setIsModAction(response.data.is_superuser))
             dispatch(setUserAction({
                 email: response.data.email,
                 isSuperuser: response.data.is_superuser

@@ -4,7 +4,7 @@ import styles from './Header.module.scss'
 import { useState } from 'react';
 import axios, {AxiosResponse} from 'axios';
 import {useDispatch} from "react-redux";
-import {useUser, useIsAuth, setIsAuthAction, setUserAction} from "../../slices/AuthSlice";
+import {useUser, useIsAuth, setIsAuthAction, setUserAction,useIsMod} from "../../slices/AuthSlice";
 import {setCurrentAnswDateAction, setCurrentAnswIdAction, setVacancyFromAnswAction, useCurrentAnswId} from "../../slices/AnswSlice.ts";
 import { useVacancyFromAnsw} from "../../slices/AnswSlice";
 const cookies = new Cookies();
@@ -21,6 +21,7 @@ const Header: React.FC<headerProps> = ({flag}) => {
     const [IsAnsw, setIsAnsw] = useState(false);
     const isUserAuth = useIsAuth();
     const answ = useCurrentAnswId();
+    const IsMod = useIsMod();
     const vacanciesFromApplications = useVacancyFromAnsw();
     let user = useUser();
 
@@ -74,6 +75,8 @@ const Header: React.FC<headerProps> = ({flag}) => {
     return (
         <div className={styles.header}>
             <div className={styles.header__wrapper}>
+            {IsMod &&  <Link to="/employee" className={styles.header__profile}>Работодатель</Link>}
+            <span className={styles.header__spacer}>&nbsp;&nbsp;&nbsp;</span>
             {isUserAuth && <Link to="/answs" className={styles.header__profile}>Список откликов</Link>}
             {isUserAuth && IsAnsw && flag && (
   <Link to={`/answs/${answ}`} className={styles.header__profile}>

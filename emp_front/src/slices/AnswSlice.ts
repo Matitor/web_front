@@ -62,9 +62,7 @@ const dataSlice = createSlice({
       state.answ = action.payload;
       console.log('answ is', action.payload)
     },
-    setCurrentUserFilter(state, action: PayloadAction<string>) {
-      state.userName = action.payload;
-    },
+    
     setStartFilter(state, action: PayloadAction<string>) {
       state.start = action.payload;
     },
@@ -90,20 +88,19 @@ export const useVacancyFromAnsw = () =>
 export const useAnsw = () =>
   useSelector((state: { answData: DataState }) => state.answData.answ);
   export const useStartFilter = () =>
-  useSelector((state: { respData: DataState }) => state.respData.start);
+  useSelector((state: { answData: DataState }) => state.answData.start);
 
 export const useEndFilter = () =>
-  useSelector((state: { respData: DataState }) => state.respData.end);
+  useSelector((state: { answData: DataState }) => state.answData.end);
 export const useStatusFilter = () =>
-  useSelector((state: { respData: DataState }) => state.respData.status);
-export const useCurrentUserFilter = () =>
-  useSelector((state: { respData: DataState }) => state.respData.userName);
+  useSelector((state: { answData: DataState }) => state.answData.status);
+
 export const {
     setCurrentAnswId: setCurrentAnswIdAction,
     setCurrentAnswDate: setCurrentAnswDateAction,
     setVacancyFromAnsw: setVacancyFromAnswAction,
     setAnsw: setAnswAction,
-    setCurrentUserFilter: setCurrentUserFilterAction,
+   
     setStartFilter: setStartFilterAction,
     setEndFilter: setEndilterAction,
     setStatusFilter: setStatusFilterAction,

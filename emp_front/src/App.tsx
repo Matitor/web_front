@@ -5,13 +5,13 @@ import VacPage from './pages/VacPage/VacPage';
 //import DetaliedPage from 'pages/DetaliedPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import LoginPage from './pages/LoginPage/LoginPage';
-import CurAnswPage from './pages/CurAnswPage/CurAnswPage';
+import ModPage from './pages/ModPage/ModPage';
 import AnswerListPage from './pages/AnswListPage/AnswListPage';
 import AnswPage from './pages/AnswPage/AnswPage';
 import axios, {AxiosResponse} from 'axios';
 import Cookies from "universal-cookie";
 import {useDispatch} from "react-redux";
-import {setUserAction, setIsAuthAction, useIsAuth} from './slices/AuthSlice';
+import {setUserAction, setIsAuthAction, useIsAuth, useIsMod, setIsModAction} from './slices/AuthSlice';
 import {setVacAction} from "./slices/MainSlice";
 import { setAnswAction, setCurrentAnswDateAction, setVacancyFromAnswAction, setCurrentAnswIdAction } from './slices/AnswSlice'
 import { ToastContainer } from 'react-toastify';
@@ -36,6 +36,7 @@ export type ReceivedVacData = {
 function App() {
   const dispatch = useDispatch();
   const isAuth = useIsAuth();
+  const isMod = useIsMod();
 
   const getInitialUserInfo = async () => {
     console.log(cookies.get("session_id"))
@@ -141,6 +142,7 @@ const getCurrentAnsw = async (id: number) => {
               {isAuth && <Route path="/answs">
                 <Route path=":id" element={<AnswPage />} />
               </Route>}
+              {isMod && <Route path='/employee' element={<ModPage />} />}
               <Route path="*" element={<Navigate to="/vacancies" replace />} />
           </Routes>
       </HashRouter>
