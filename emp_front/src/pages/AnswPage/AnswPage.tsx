@@ -11,6 +11,7 @@ import { useLinksMapData, setLinksMapDataAction } from "../../slices/DetaildSlic
 import {useCurrentAnswDate, useVacancyFromAnsw,setCurrentAnswDateAction, setVacancyFromAnswAction } from  "../../slices/AnswSlice";
 import {setCurrentAnswIdAction, useCurrentAnswId} from "../../slices/AnswSlice";
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom'
 
 export type ReceivedVacancyData = {
   id: number,
@@ -91,7 +92,7 @@ const AnswPage = () => {
     
         dispatch(setVacancyFromAnswAction([]));
         dispatch(setCurrentAnswDateAction(''));
-        dispatch(setCurrentAnswIdAction(undefined));
+        dispatch(setCurrentAnswIdAction(-1));
         localStorage.setItem('vacancyFromAnsw', JSON.stringify([]));
         toast.success("Отклик удален");
         setCurrentStatus("deleted")
@@ -104,7 +105,7 @@ const AnswPage = () => {
       const handleSendButtonClick = () => {
         sendResp();
         hr();
-        getCurrentAnsw();
+        dispatch(setCurrentAnswIdAction(-1))
       }
     
       const handleDeleteButtonClick = () => {
@@ -137,8 +138,8 @@ const AnswPage = () => {
           />
           </div>
           <div className={styles['application__page-info-btns']}>
-          <Button onClick={() => handleSendButtonClick()} className={styles['application__page-info-btn']} style={{ display: currentStatus === 'registered' ? 'block' : 'none' }}>Отправить</Button>
-        <Button onClick={() => handleDeleteButtonClick()} className={styles['application__page-info-btn']} style={{ display: currentStatus === 'registered' ? 'block' : 'none' }}>Удалить</Button>
+          <Link to='/vacancies'><Button onClick={() => handleSendButtonClick()} className={styles['application__page-info-btn']} style={{ display: currentStatus === 'registered' ? 'block' : 'none' }}>Отправить</Button></Link>
+        <Link to='/vacancies'><Button onClick={() => handleDeleteButtonClick()} className={styles['application__page-info-btn']} style={{ display: currentStatus === 'registered' ? 'block' : 'none' }}>Удалить</Button></Link>
       </div>
       </div>
   : <h5 className={styles['application__page-subtitle']}>

@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useCurrentAnswDate, useVacancyFromAnsw,
   setCurrentAnswDateAction, setVacancyFromAnswAction, setCurrentAnswIdAction } from "../../slices/AnswSlice";
 import { ButtonGroup } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom"
 
 
 interface VacancyData {
@@ -28,7 +29,9 @@ export type VacTableProps = {
 const VacancyTable: React.FC<VacTableProps> = ({vacancies, className, flag}) => {
   const dispatch = useDispatch();
   const vacan = useVacancyFromAnsw()
+  const navigate = useNavigate()
 
+    
   const deleteVacancyFromResp = async (id: number) => {
     try {
       const response = axios(`http://localhost:8000/vac_answ/${id}`, {
@@ -39,8 +42,29 @@ const VacancyTable: React.FC<VacTableProps> = ({vacancies, className, flag}) => 
       console.log(id, vacan)
 
       dispatch(setVacancyFromAnswAction(vacan.filter(vacancy => vacancy.id !== id)))
-
+      
       toast.success("Вакансия удалена");
+      if((vacancies.length)==1){
+        console.log('wowowow')
+        try {
+          await axios(`http://localhost:8000/answer/delete`, {
+          method: 'DELETE',
+          withCredentials: true
+        })
+    
+        dispatch(setVacancyFromAnswAction([]));
+        dispatch(setCurrentAnswDateAction(''));
+        dispatch(setCurrentAnswIdAction(-1));
+        localStorage.setItem('vacancyFromAnsw', JSON.stringify([]));
+        toast.success("Отклик удален");
+        
+        }
+        catch(error) {
+          throw error;
+        }
+        navigate("/vacancies")
+    
+      }
     } catch(error) {
       throw error;
     }

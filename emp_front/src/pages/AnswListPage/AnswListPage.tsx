@@ -72,7 +72,7 @@ const AnswListPage = () => {
     
     return (
         <div className={styles.applications__page}>
-            <Header/>
+            <Header flag={false}/>
             <div className={styles['applications__page-wrapper']}>
                 <BreadCrumbs links={linksMap}></BreadCrumbs>
                

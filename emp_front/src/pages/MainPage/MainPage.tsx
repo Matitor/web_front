@@ -58,6 +58,7 @@ const MainPage: React.FC = () => {
     const linksMap = useLinksMapData();
     const answ = useCurrentAnswId();
     React.useEffect(() => {
+      getVacancies();
       dispatch(setLinksMapDataAction(new Map<string, string>([
           ['Вакансии', '/vacancies']
       ])))
@@ -92,9 +93,9 @@ const MainPage: React.FC = () => {
 }
 }
 const getVacancies = async () => {
-    let url = 'http://localhost:8000/vacancies'
+    let url = 'http://localhost:8000/vacancies/'
     if (titleValue) {
-        url += `?keyword=${titleValue}`
+        url += `?name=${titleValue}`
     }
     console.log("here")
     try {
@@ -169,6 +170,11 @@ const postVacancyToAnsw = async (id: number) => {
 const handleSearchButtonClick = () => {
     getVacancies();
 };
+const handleAddButtonClick = (id:number) => {
+  
+  postVacancyToAnsw(id);
+  
+};
 
 const handleTitleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitleValueAction(event.target.value));
@@ -177,9 +183,10 @@ const handleTitleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
 
     return (
       <div className={styles.page}>
-      <Header/>
+      <Header flag={true}/>
       <div>
       <BreadCrumbs links={linksMap}></BreadCrumbs>
+      
       </div>
               <Form>
                   <Form.Control className={styles.page__input} value={titleValue} onChange={handleTitleValueChange} type="text" placeholder="Профессия..."/>
@@ -188,7 +195,7 @@ const handleTitleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
               <div className={styles.page__content}>
                   {
                   vacancies.map((vac: Vacancy) => (
-                      <Card id={vac.id} desc={vac.desc} name={vac.name} company={vac.company} price_min={vac.price_min} price_max={vac.price_max} pic={vac.pic} isUserAuth={isUserAuth} onButtonClick={() => postVacancyToAnsw(vac.id)}></Card>
+                      <Card id={vac.id} desc={vac.desc} name={vac.name} company={vac.company} price_min={vac.price_min} price_max={vac.price_max} pic={vac.pic} isUserAuth={isUserAuth} onButtonClick={() => handleAddButtonClick(vac.id)}></Card>
                   ))}
               </div>
           {vacancies.length === 0 && <p > <big>таких вакансий нет</big></p>}

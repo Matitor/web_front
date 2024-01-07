@@ -12,7 +12,10 @@ import Cookies from "universal-cookie";
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 
-const Header: React.FC = () => {
+export type headerProps = {
+  flag?: boolean;
+};
+const Header: React.FC<headerProps> = ({flag}) => {
   const dispatch = useDispatch();
     const [isProfileButtonClicked, setIsProfileButtonClicked] = useState(false);
     const [IsAnsw, setIsAnsw] = useState(false);
@@ -22,8 +25,12 @@ const Header: React.FC = () => {
     let user = useUser();
 
     useEffect(() => {
-      
-      setIsAnsw(!!answ);
+      if(answ==-1){
+        setIsAnsw(false);  
+      }
+      else{
+        setIsAnsw(true);
+      }
     }, [answ]);
     const handleProfileButtonClick = () => {
         setIsProfileButtonClicked(!isProfileButtonClicked);
@@ -68,12 +75,12 @@ const Header: React.FC = () => {
         <div className={styles.header}>
             <div className={styles.header__wrapper}>
             {isUserAuth && <Link to="/answs" className={styles.header__profile}>Список откликов</Link>}
-            {isUserAuth && IsAnsw && (
+            {isUserAuth && IsAnsw && flag && (
   <Link to={`/answs/${answ}`} className={styles.header__profile}>
     Отклик
   </Link>
 )}
-{isUserAuth && !IsAnsw && (
+{isUserAuth && !IsAnsw && flag && (
   <div style={{ color: "#fff", fontSize:20 }}>Отклик</div>
 )}
                 {isUserAuth && (
