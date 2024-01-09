@@ -27,7 +27,7 @@ export type Vacancy = {
     company:string;
     pic:string;
     status:string;
-    total_desk?:string;
+    total_desc?:string;
     adress?:string;
   };
   export type ReceivedVacData = {
@@ -39,7 +39,7 @@ export type Vacancy = {
     company:string;
     pic:string;
     status:string;
-    total_desk?:string;
+    total_desc?:string;
     adress?:string;
   }
   export type ReceivedUserData = {
@@ -81,6 +81,8 @@ const MainPage: React.FC = () => {
             price_min: raw.price_min,
             price_max: raw.price_max,
             company: raw.company,
+            adress:raw.adress,
+            total_desc:raw.total_desc,
             pic: raw.pic,
             status:raw.status
     }));
@@ -116,6 +118,8 @@ const getVacancies = async () => {
           desc: raw.desc,
           price_min: raw.price_min,
           price_max: raw.price_max,
+          total_desc:raw.total_desc,
+          adress:raw.adress,
           company: raw.company,
           pic: raw.pic,
           status:raw.status
@@ -148,7 +152,7 @@ const postVacancyToAnsw = async (id: number) => {
           company:response.data.company,
           pic:response.data.pic,
           status:response.data.status,
-          total_desk:response.data.total_desk,
+          total_desc:response.data.total_desc,
           adress:response.data.adress
       }
       dispatch(setVacancyFromAnswAction([...vacancyFromAnsw, addedVacancy]))

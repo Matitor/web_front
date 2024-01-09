@@ -323,54 +323,110 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
 
   const putVacancy = async () => {
     try {
-      const response = await axios(`http://localhost:8000/vacancies/${dictionary?.id}`, {
+      const formData = new FormData();
+      if (dictionary.png){
+        formData.append('png', dictionary.png);}
+        if (dictionary.name){
+        formData.append('name', dictionary.name);}
+        if (dictionary.price_min){
+        formData.append('price_min', String(dictionary.price_min));}
+        if (dictionary.price_max){
+        formData.append('price_max', String(dictionary.price_max));}
+        if (dictionary.desc){
+        formData.append('desc', dictionary.desc);}
+        if (dictionary.adress){
+        formData.append('adress', dictionary.adress);}
+        if (dictionary.company){
+        formData.append('company', dictionary.company);}
+        if (dictionary.total_desc){
+        formData.append('total_desc', dictionary.total_desc);}
+      //const response = await axios(`http://localhost:8000/vacancies/${dictionary?.id}`, {
+      //  method: 'PUT',
+      //  data: {
+      //    name: dictionary.name,
+      //    desc: dictionary.desc,
+      //    price_min: dictionary.price_min,
+      //    price_max: dictionary.price_max,
+      //    company: dictionary.company,
+      //    pic: dictionary.pic,
+      //    adress: dictionary.adress,
+          
+      //    total_desc: dictionary.total_desc
+          
+      //  },
+      //  withCredentials: true
+      //})
+      const response = await axios({
         method: 'PUT',
-        data: {
-          name: dictionary.name,
-          desc: dictionary.desc,
-          price_min: dictionary.price_min,
-          price_max: dictionary.price_max,
-          company: dictionary.company,
-          pic: dictionary.pic,
-          adress: dictionary.adress,
-          
-          total_desc: dictionary.total_desc
-          
+        url: `http://localhost:8000/vacancies/${dictionary?.id}`,
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data'
         },
         withCredentials: true
-      })
+       });
+       const jsonData = response.data;
+       const newArr = jsonData.map((raw: ReceivedVacancyData) => ({
+         name: raw.name,
+         desc: raw.desc,
+         price_min: raw.price_min,
+         price_max: raw.price_max,
+         company: raw.company,
+         pic: raw.pic,
+         adress: raw.adress,
+         id: raw.id,
+         status: raw.status,
+         total_desc: raw.total_desc
+     
+       }));
+       dispatch(setVacAction(newArr));
+       setEditableRows(null);
+      
+       setDictionary({       
+         id: 0,
+         name: "",
+         desc: "",
+         price_min: 0,
+         price_max: 0,
+         company: "",
+         total_desc: "",
+         pic: "",
+         status: "",
+         adress: "",
+         png:undefined
+       });
 
-      const updatedVacancies = vacancies.map(vacancy => {
-        if (vacancy.id === dictionary?.id) {
-          return {
-            ...vacancy,
-            name: dictionary.name,
-          desc: dictionary.desc,
-          price_min: dictionary.price_min,
-          price_max: dictionary.price_max,
-          company: dictionary.company,
-          pic: dictionary.pic,
-          adress: dictionary.adress,
+      //const updatedVacancies = vacancies.map(vacancy => {
+      //  if (vacancy.id === dictionary?.id) {
+      //    return {
+      //      ...vacancy,
+      //      name: dictionary.name,
+      //    desc: dictionary.desc,
+      //    price_min: dictionary.price_min,
+      //    price_max: dictionary.price_max,
+      //    company: dictionary.company,
+      //    pic: dictionary.pic,
+      //    adress: dictionary.adress,
           
-          total_desc: dictionary.total_desc
-          };
-        }
-        return vacancy;
-      });
-      dispatch(setVacAction(updatedVacancies))
-      setEditableRows(null);
-      setDictionary({       
-        id: 0,
-          name: "",
-          desc: "",
-          price_min: 0,
-          price_max: 0,
-          company: "",
-          total_desc: "",
-          pic: "",
-          status: "",
-          adress: "",
-      });
+      //    total_desc: dictionary.total_desc
+      //    };
+      //  }
+      //  return vacancy;
+      //});
+      //dispatch(setVacAction(updatedVacancies))
+      //setEditableRows(null);
+      //setDictionary({       
+      //  id: 0,
+      //    name: "",
+      //    desc: "",
+      //    price_min: 0,
+      //    price_max: 0,
+      //    company: "",
+      //    total_desc: "",
+      //    pic: "",
+      //    status: "",
+      //    adress: "",
+      //});
       toast.success('Информация успешно обновлена!')
     } catch(e) {
       toast.error('Такая вакансия уже существует!')
@@ -382,7 +438,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
 
     return (
       <>
-        <div className={`${styles.table__container} ${className}`}>
+        <div className={`${styles.table__container} ${className}` }>
         <div className={`${styles.table__add} ${className}`}>
           <h6>
         <Link  onClick={() => handleCreateButtonClick()} to={""}>Новая вакансия</Link>
@@ -506,7 +562,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
          </div>
         )}
         </div>
-        <Table>
+        <Table >
             <thead>
               <tr>
                 {columns.map((column, index) => (
@@ -517,11 +573,11 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
             </thead>
             <tbody>
               {data.map((row, rowIndex) => (
-                <tr key={rowIndex}>
+                <tr key={rowIndex} >
                 {columns.map((column, columnIndex) => (
                   <td key={columnIndex}>
                   {row.id==editableRows && column.key==="pic" ?(
-                    <input
+                    <input style={{width:'100px'}}
                     type="file"
                     onChange={(event) => {
                       if (event.target.files && event.target.files.length > 0) {
@@ -535,7 +591,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
                     placeholder="Фото вакансии"
                     />
                   ):row.id == editableRows ? (
-                    <input
+                    <input style={{width:'150px'}}
                     type="text"
                     value={dictionary[column.key as keyof typeof dictionary] as string}
                     onChange={(event) => {
