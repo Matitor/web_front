@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux";
 import { setTitleValueAction, useTitleValue, useVac } from "../../slices/MainSlice";
 import { useState } from "react";
-import React from "react";
+import React from "react"; 
 import Header from "../../components/Header";
-import styles from "../../pages/ModPage/ModPage.moduel.scss"
+import styles from "./ModPage.module.scss"
 import CustomTable from "../../components/CustomTable/CustomTable";
 
 export type ReceivedVacancyData = {
@@ -25,18 +25,18 @@ const columns = [
     },
     {
         key: 'price_min',
-        title: 'Минимальная зарплата'
+        title: 'Мин-ЗП'
     },
     {
       key: 'price_max',
-      title: 'Максимальная зарплата'
+      title: 'Макс-ЗП'
     },
     {
         key: 'adress',
         title: 'Адрес'
     },
     {
-        key: 'total_desk',
+        key: 'total_desc',
         title: 'Описание'
     },
     {
@@ -47,7 +47,10 @@ const columns = [
         key: 'desc',
         title: ' Требования'
     },
-   
+    {
+      key: 'pic',
+      title: 'фото'
+  },
 
 ]
 

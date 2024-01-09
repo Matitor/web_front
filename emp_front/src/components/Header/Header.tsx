@@ -4,7 +4,7 @@ import styles from './Header.module.scss'
 import { useState } from 'react';
 import axios, {AxiosResponse} from 'axios';
 import {useDispatch} from "react-redux";
-import {useUser, useIsAuth, setIsAuthAction, setUserAction,useIsMod} from "../../slices/AuthSlice";
+import {useUser, useIsAuth, setIsAuthAction, setUserAction,useIsMod,setIsModAction} from "../../slices/AuthSlice";
 import {setCurrentAnswDateAction, setCurrentAnswIdAction, setVacancyFromAnswAction, useCurrentAnswId} from "../../slices/AnswSlice.ts";
 import { useVacancyFromAnsw} from "../../slices/AnswSlice";
 const cookies = new Cookies();
@@ -50,7 +50,7 @@ const Header: React.FC<headerProps> = ({flag}) => {
           })
 
           cookies.remove("session_id", { path: "/" }); 
-
+          dispatch(setIsModAction(false))
           dispatch(setIsAuthAction(false))
           dispatch(setVacancyFromAnswAction([]));
           dispatch(setCurrentAnswDateAction(''));

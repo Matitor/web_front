@@ -9,6 +9,7 @@ import { setTitleValueAction, setVacAction, useTitleValue, useVac } from '../../
 import { useDispatch } from 'react-redux';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { Link } from 'react-router-dom';
+import Image from 'react-bootstrap/Image'
 //import { title } from 'process';
 
 export type ReceivedVacancyData = {
@@ -20,8 +21,9 @@ export type ReceivedVacancyData = {
   company:string;
   pic:string;
   status:string;
-  total_desk?:string;
+  total_desc?:string;
   adress?:string;
+  png?:File;
 }
 
 type ColumnData = {
@@ -46,8 +48,9 @@ export type VacancyData = {
   company:string;
   pic:string ;
   status:string;
-  total_desk?:string;
+  total_desc?:string;
   adress?:string;
+  png?:File;
 }
 
 const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
@@ -66,11 +69,11 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
       price_min: 0,
       price_max: 0,
       company: "",
-      total_desk: "",
+      total_desc: "",
       pic: "",
       status: "",
       adress: "",
-
+      png: undefined,
     });
     const [expandedRows, setExpandedRows] = useState<number[]>([]);
 
@@ -88,7 +91,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
     
     const deleteVacancy = async () => {
       try {
-        await axios(`http://localhost:8000/vacancies/${currentVacanciesId}/`, {
+        await axios(`http://localhost:8000/vacancies/${currentVacanciesId}`, {
           method: 'DELETE',
           withCredentials: true,
   
@@ -177,7 +180,8 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
         adress: selectedVacancy.adress,
         id: selectedVacancy.id,
         status: selectedVacancy.status,
-        total_desk: selectedVacancy.total_desk
+        total_desc: selectedVacancy.total_desc,
+        png: selectedVacancy.png,
       };
   
       setDictionary(updatedDictionary);
@@ -199,7 +203,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
       price_min: 0,
       price_max: 0,
       company: "",
-      total_desk: "",
+      total_desc: "",
       pic: "",
       status: "",
       adress: "",
@@ -224,26 +228,59 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
         return toast.error("Введите название компании")
       }
       if (dictionary.desc.length == 0) {
-        return toast.error("Введите требуемый опыт работы")
+        return toast.error("Введите требования для работы")
+      }
+      if (!dictionary.total_desc) {
+        return toast.error("Введите доп информацию о работе")
       }
       if (!dictionary.adress) {
         return toast.error("Введите город работы")
       }
-      
+      if (!dictionary.png) {
+        return toast.error("Укажите изображение работы")
+      }
       try {
-        const response = await axios(`http://localhost:8000/vacancies/`, {
+        const formData = new FormData();
+        formData.append('png', dictionary.png);
+        formData.append('name', dictionary.name);
+        formData.append('price_min', String(dictionary.price_min));
+        formData.append('price_max', String(dictionary.price_max));
+        formData.append('desc', dictionary.desc);
+        formData.append('adress', dictionary.adress);
+        formData.append('company', dictionary.company);
+        formData.append('total_desc', dictionary.total_desc);
+        //axios.post(`http://localhost:8000/vacancies/`, formData, {
+        //  headers: {
+        //    'Content-Type': 'multipart/form-data'
+        //  }
+        // }).then(response => {
+        //  const reps=response
+        //  console.log('Success:', response.data);
+        // })
+
+        //const response = await axios(`http://localhost:8000/vacancies/`, {
+        //  method: 'POST',
+        //  data: {
+        //    name: dictionary.name,
+        //    price_min: dictionary.price_min,
+        //    price_max: dictionary.price_max,
+        //    desc: dictionary.desc,
+        //    adress: dictionary.adress,
+        //    company: dictionary.company,
+        //    total_desc: dictionary.total_desc
+        //  },
+        
+        //  withCredentials: true
+        //})
+        const response = await axios({
           method: 'POST',
-          data: {
-            name: dictionary.name,
-            price_min: dictionary.price_min,
-            price_max: dictionary.price_max,
-            desc: dictionary.desc,
-            adress: dictionary.adress,
-            
-            company: dictionary.company
+          url: 'http://localhost:8000/vacancies/',
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data'
           },
           withCredentials: true
-        })
+         });
 
         console.log(response)
 
@@ -258,7 +295,8 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           adress: raw.adress,
           id: raw.id,
           status: raw.status,
-          total_desk: raw.total_desk
+          total_desc: raw.total_desc
+      
         }));
         dispatch(setVacAction(newArr));
  
@@ -270,10 +308,11 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           price_min: 0,
           price_max: 0,
           company: "",
-          total_desk: "",
+          total_desc: "",
           pic: "",
           status: "",
           adress: "",
+          png:undefined
         });
         toast.success('Вакансия добавлена')
       } catch(e) {
@@ -295,7 +334,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           pic: dictionary.pic,
           adress: dictionary.adress,
           
-          total_desk: dictionary.total_desk
+          total_desc: dictionary.total_desc
           
         },
         withCredentials: true
@@ -313,7 +352,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           pic: dictionary.pic,
           adress: dictionary.adress,
           
-          total_desk: dictionary.total_desk
+          total_desc: dictionary.total_desc
           };
         }
         return vacancy;
@@ -327,7 +366,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           price_min: 0,
           price_max: 0,
           company: "",
-          total_desk: "",
+          total_desc: "",
           pic: "",
           status: "",
           adress: "",
@@ -356,7 +395,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
               onChange={(event) => {
                 const updatedDictionary = {
                   ...dictionary,
-                  ['title']: event.target.value
+                  ['name']: event.target.value
                 };
                 setDictionary(updatedDictionary);
               }}
@@ -369,23 +408,35 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
               onChange={(event) => {
                 const updatedDictionary = {
                   ...dictionary,
-                  ['salary']: Number(event.target.value)
+                  ['price_min']: Number(event.target.value)
                 };
                 setDictionary(updatedDictionary);
               }}
-              placeholder="Зарплата*"
-              required
+              placeholder="Мин-ЗП*"
+              
+            />
+            <input
+              type="number"
+              onChange={(event) => {
+                const updatedDictionary = {
+                  ...dictionary,
+                  ['price_max']: Number(event.target.value)
+                };
+                setDictionary(updatedDictionary);
+              }}
+              placeholder="Макс-ЗП*"
+              
             />
             <input
               type="text"
               onChange={(event) => {
                 const updatedDictionary = {
                   ...dictionary,
-                  ['city']: event.target.value
+                  ['desc']: event.target.value
                 };
                 setDictionary(updatedDictionary);
               }}
-              placeholder="Город*"
+              placeholder="Требования*"
             />
             <input
               type="text"
@@ -396,7 +447,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
                 };
                 setDictionary(updatedDictionary);
               }}
-              placeholder="Полный адрес"
+              placeholder="Полный адрес*"
             />
             <input
               type="text"
@@ -410,28 +461,30 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
               placeholder="Компания*"
               required
             />
-            <input
-              type="text"
-              onChange={(event) => {
-                const updatedDictionary = {
-                  ...dictionary,
-                  ['exp']: event.target.value
-                };
-                setDictionary(updatedDictionary);
-              }}
-              placeholder="Опыт работы*"
-            />
             <textarea
              
              onChange={(event) => {
               const updatedDictionary = {
                 ...dictionary,
-                ['info']: event.target.value
+                ['total_desc']: event.target.value
               };
               setDictionary(updatedDictionary);
             }}
-             placeholder="Дополнительная информация"
+             placeholder="Дополнительная информация*"
            />
+           <input
+            type="file"
+            onChange={(event) => {
+              if (event.target.files && event.target.files.length > 0) {
+              // Assuming 'setDictionary' updates the dictionary with the uploaded file
+              const updatedDictionary = {
+                ...dictionary,
+                ['png']: event.target.files[0]
+              };
+              setDictionary(updatedDictionary);
+            }}}
+            placeholder="Фото вакансии"
+            />
            {/* Добавьте остальные поля */}
            <button type='submit' className='btn'  onClick={() => postVacancy()}>Сохранить</button>
            <button className='btn' onClick={() => {
@@ -443,10 +496,11 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           price_min: 0,
           price_max: 0,
           company: "",
-          total_desk: "",
+          total_desc: "",
           pic: "",
           status: "",
           adress: "",
+          png:undefined,
                       });
                   }}>Отменить</button>
          </div>
@@ -466,7 +520,21 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
                 <tr key={rowIndex}>
                 {columns.map((column, columnIndex) => (
                   <td key={columnIndex}>
-                  {row.id == editableRows ? (
+                  {row.id==editableRows && column.key==="pic" ?(
+                    <input
+                    type="file"
+                    onChange={(event) => {
+                      if (event.target.files && event.target.files.length > 0) {
+                      // Assuming 'setDictionary' updates the dictionary with the uploaded file
+                      const updatedDictionary = {
+                        ...dictionary,
+                        ['png']: event.target.files[0]
+                      };
+                      setDictionary(updatedDictionary);
+                    }}}
+                    placeholder="Фото вакансии"
+                    />
+                  ):row.id == editableRows ? (
                     <input
                     type="text"
                     value={dictionary[column.key as keyof typeof dictionary] as string}
@@ -490,6 +558,16 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
                         </div>
                       </>
                     </div>
+                  ) : column.key === "pic" && row[column.key] !== null ? (
+                    <div>
+                      <>
+                        
+                        
+                        <div>
+                          <Image style={{width:'100px',height:'50px'}} src={row[column.key]}/>
+                        </div>
+                      </>
+                    </div>
                   ) : (
                     row[column.key]
                   )}
@@ -499,9 +577,9 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
                     {/* <EditIcon onClick={() => handleEditButtonClick(row)}/> */}
                     {editableRows!=row.id && (
                       <td className={styles.table__action}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-paperclip" viewBox="0 0 16 16" onClick={() => (row)}>
+                    {/*<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-paperclip" viewBox="0 0 16 16" onClick={() => (row)}>
                     <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0z"/>
-                  </svg>
+                  </svg>*/}
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16" onClick={() => handleDeleteButtonClick(row.id)}>
                     <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
                   </svg>
@@ -521,7 +599,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           price_min: 0,
           price_max: 0,
           company: "",
-          total_desk: "",
+          total_desc: "",
           pic: "",
           status: "",
           adress: "",
@@ -546,7 +624,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           </Table>
 
   
-          <ModalWindow handleBackdropClick={() => {setIsImageModalWindowOpened(false); setSelectedImage(null)}} active={isImageModalWindowOpened } className={styles.modal}>
+          {/*<ModalWindow handleBackdropClick={() => {setIsImageModalWindowOpened(false); setSelectedImage(null)}} active={isImageModalWindowOpened } className={styles.modal}>
             <h3 className={styles.modal__title}>Выберите картинку</h3>
             {currentImage && <h4 className={styles.modal__subtitle}>Текущее изображение</h4>}
             <div className={styles.dropzone__container}>
@@ -559,7 +637,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
             </div>
             <Button disabled={selectedImage ? false : true} className={styles.dropzone__button} >Сохранить</Button>
             
-          </ModalWindow>
+          </ModalWindow>*/}
         </div>
       </>
     );

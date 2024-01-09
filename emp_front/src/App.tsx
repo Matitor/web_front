@@ -52,6 +52,7 @@ function App() {
 
       console.log(response.data)
       dispatch(setIsAuthAction(true))
+      dispatch(setIsModAction(response.data.is_superuser))
       dispatch(setUserAction({
         email: response.data.email,
         isSuperuser: response.data.is_superuser
