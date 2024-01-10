@@ -73,7 +73,7 @@ const VacPage: React.FC = () => {
         <Card.Text className={styles.card__container_company}>
         {vacancy?.company}
         </Card.Text>
-        
+        {vacancy?.total_desc}
       </Card.Body>
     </Card>
     </div>

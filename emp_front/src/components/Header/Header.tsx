@@ -75,7 +75,7 @@ const Header: React.FC<headerProps> = ({flag}) => {
     return (
         <div className={styles.header}>
             <div className={styles.header__wrapper}>
-            {IsMod &&  <Link to="/employee" className={styles.header__profile}>Работодатель</Link>}
+            {IsMod &&  <Link to="/employee" className={styles.header__profile}>Модератор</Link>}
             <span className={styles.header__spacer}>&nbsp;&nbsp;&nbsp;</span>
             {isUserAuth && <Link to="/answs" className={styles.header__profile}>Список откликов</Link>}
             {isUserAuth && IsAnsw && flag && (

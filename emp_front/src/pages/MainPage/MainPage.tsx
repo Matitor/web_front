@@ -107,7 +107,7 @@ const getVacancies = async () => {
         });
         console.log("here")
         if (response.data.answer) {
-            getCurrentAnsw(response.data.answer);
+            //getCurrentAnsw(response.data.answer);
             dispatch(setCurrentAnswIdAction(response.data.answer))
             
         }
