@@ -13,6 +13,7 @@ import { useCurrentAnswDate, useVacancyFromAnsw,
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { useIsMod } from '../../slices/AuthSlice';
+import differenceInMilliseconds from 'date-fns/esm/fp/differenceInMilliseconds/index.js';
 
 interface AnswData {
   id: number;
@@ -21,6 +22,7 @@ interface AnswData {
   processed_at: string;
   completed_at: string;
   suite?:string | null;
+  name:string;
 }
 
 interface VacancyData {
@@ -49,6 +51,7 @@ const AnswTab: React.FC<VacancyTableProps> = ({answ, className}) => {
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [currentVacancies, setCurrentVacancies] = useState<VacancyData[]>([])
   const IsMod = useIsMod();
+  
   const getCurrentAnsw = async (id: number) => {
     try {
       const response = await axios(`http://localhost:8000/answer/${id}`, {
@@ -99,10 +102,11 @@ const AnswTab: React.FC<VacancyTableProps> = ({answ, className}) => {
   return (
     <>
     <div className={styles.table__container}>
-    <Table responsive borderless className={!className ? styles.table : cn(styles.table, className)}>
+    <Table responsive  hover >
         <thead>
           <tr className={styles.tableHead}>
             <th style={{backgroundColor:'lightgray'}}>№</th>
+            {IsMod && <th style={{backgroundColor:'lightgray'}}>Пользователь</th>}
             <th style={{backgroundColor:'lightgray'}}>Статус</th>
             <th style={{backgroundColor:'lightgray'}}>Дата создания</th>
             <th style={{backgroundColor:'lightgray'}}>Дата изменения</th>
@@ -114,23 +118,24 @@ const AnswTab: React.FC<VacancyTableProps> = ({answ, className}) => {
             {/*<th style={{backgroundColor:'lightgray'}}></th>*/}
           </tr>
         </thead>
-        <tbody style={{alignItems:"center"}}>
+        <tbody >
           {answ.map((answ: AnswData, index: number) => (
-            <tr key={answ.id}>
-              <td style={{backgroundColor:'lightgray'}}>{answ.id}</td>
-              <td style={{backgroundColor:'lightgray'}}>{answ.status}</td>
-              <td style={{backgroundColor:'lightgray'}}>{new Date(answ.created_at).toLocaleString()}</td>
-              <td style={{backgroundColor:'lightgray'}}>{answ.processed_at ? new Date(answ.processed_at).toLocaleString(): '-'}</td>
-              <td style={{backgroundColor:'lightgray'}}>{answ.completed_at ? new Date(answ.completed_at).toLocaleString()  : '-'}</td>
+            <tr className={styles.stroke__a}   key={answ.id}>
+              <td >{answ.id}</td>
+              {IsMod && <th>{answ.name}</th>}
+              <td >{answ.status}</td>
+              <td >{new Date(answ.created_at).toLocaleString()}</td>
+              <td >{answ.processed_at ? new Date(answ.processed_at).toLocaleString(): '-'}</td>
+              <td >{answ.completed_at ? new Date(answ.completed_at).toLocaleString()  : '-'}</td>
            
-              <td style={{backgroundColor:'lightgray'}}>{answ.suite}</td>
-              <td style={{backgroundColor:'lightgray'}}>
-                <Link to={`/answs/${answ.id}`} style={{backgroundColor:'lightgray'}}>
-                <Button style={{alignItems:"center",}}>Подробнее</Button>
+              <td >{answ.suite}</td>
+              <td >
+                <Link to={`/answs/${answ.id}`} >
+                <Button variant="success" style={{alignItems:"center"}}>Подробнее</Button>
                 </Link>
                 {/* <Button onClick={() => handleDetailedButtonClick(application.id)}>Подробнее</Button> */}
               </td>
-              {IsMod && answ.status == 'сформирован' && (<td style={{backgroundColor:'lightgray'}}>
+              {IsMod && answ.status == 'сформирован' && (<td >
     <Button onClick={() => handleConfirmResponse(answ.id, 'approved')}     style={{
                     backgroundColor: 'rgb(231, 230, 230)',
                     borderColor:"gray",
@@ -160,7 +165,7 @@ const AnswTab: React.FC<VacancyTableProps> = ({answ, className}) => {
     </div>
 </td>)
               }
-              {IsMod && answ.status != 'сформирован' && (<th style={{backgroundColor:'lightgray'}}></th>)}
+              {IsMod && answ.status != 'сформирован' && (<th ></th>)}
             </tr>
           ))}
         </tbody>

@@ -6,7 +6,7 @@ import ModalWindow from '../../components/ModalWindow/ModalWindow'
 import AnswTab from '../../components/AnswTab/AnswTab'
 import BreadCrumbs from '../../components/BreadCrumbs/BreadCrumbs'
 import { useDispatch } from 'react-redux'
-import { setEndilterAction, setAnswAction, setStartFilterAction, setStatusFilterAction, useEndFilter, useAnsw, useStartFilter, useStatusFilter } from "../../slices/AnswSlice"
+import { setCurrentUserFilterAction,useCurrentUserFilter,setEndilterAction, setAnswAction, setStartFilterAction, setStatusFilterAction, useEndFilter, useAnsw, useStartFilter, useStatusFilter } from "../../slices/AnswSlice"
 import { useLinksMapData, setLinksMapDataAction } from "../../slices/DetaildSlice";
 import { Next } from 'react-bootstrap/esm/PageItem'
 import { useIsMod } from '../../slices/AuthSlice'
@@ -15,27 +15,28 @@ import { Button, Dropdown} from 'react-bootstrap'
 
 export type ReceivedRespData = {
     id: number;
+    name:string;
     status: string;
     created_at: string;
     processed_at: string;
     completed_at: string;
     suite?: string | null;
   }
-const statuses = ["Не выбрано", "зарегистрирован",'сформирован', "отказ", "одобрено"]
+const statuses = ["Не выбрано",'сформирован', "отказ", "одобрено"]
 const AnswListPage = () => {
     const dispatch = useDispatch();
     const answ = useAnsw();
     const IsMod = useIsMod();
     const linksMap = useLinksMapData();
     const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
-    
+    const userFilter = useCurrentUserFilter();
     const startTime = useStartFilter();
     const endTime = useEndFilter();
     const statusValue = useStatusFilter();
 
     const getAllAnsw = async () => {
       let res = ''
-      console.log("strt end stat", startTime, endTime, statusValue)
+      console.log("strt end stat", startTime, endTime, statusValue,userFilter)
       if (startTime && endTime) {
       res += `?start=${startTime}&end=${endTime}`
       } else if(startTime) {
@@ -62,7 +63,22 @@ const AnswListPage = () => {
         const rawData = response.data;
         let filteredData; // Объявление переменной filteredData перед блоком if-else
         
-        
+        if (userFilter) {
+          filteredData = rawData
+          .filter((raw: ReceivedRespData) => raw.status !== 'delited')
+          .filter((raw: ReceivedRespData) => raw.status !== 'registered')
+          .filter((raw: ReceivedRespData) => raw.user.email.toLowerCase().includes(userFilter.toLowerCase()))
+          .map((raw: ReceivedRespData) => ({
+            id: raw.id,
+              status: getStatusTranslation(raw.status),
+              created_at: raw.created_at,
+              processed_at: raw.processed_at,
+              completed_at: raw.completed_at,
+              suite: raw.suite,
+              name:raw.user.email
+          }));
+        }
+        else{
           filteredData = rawData
             .filter((raw: ReceivedRespData) => raw.status !== 'delited')
             .map((raw: ReceivedRespData) => ({
@@ -72,9 +88,9 @@ const AnswListPage = () => {
               processed_at: raw.processed_at,
               completed_at: raw.completed_at,
               suite: raw.suite,
-              
+              name:raw.user.email
             }));
-        
+          }
     
         dispatch(setAnswAction(filteredData));
       } catch(error) {
@@ -120,7 +136,10 @@ const AnswListPage = () => {
     const handleSearchButtonClick = () => {
       getAllAnsw();
   };
-
+  const handleUserValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setCurrentUserFilterAction(event.target.value));
+    //userFilter=event.target.value;
+  };
   const handleCategorySelect = (eventKey: string | null) => {
       if (eventKey !== null) {
         const selectedStatus = statuses.find(status => status === eventKey)
@@ -140,7 +159,7 @@ const AnswListPage = () => {
         return () => {
           clearInterval(pollingInterval);
         };
-    }, [startTime, endTime, statusValue])
+    }, [startTime, endTime, statusValue,userFilter])
     
     
     return (
@@ -165,9 +184,10 @@ const AnswListPage = () => {
               <div className={styles.form__item}>
                 <Form.Control onChange={(event: ChangeEvent<HTMLInputElement>) => {dispatch(setEndilterAction(event.target.value))}} value={endTime} className={styles.form__input} type="text" placeholder="Конечная дата (Год-Месяц-День)" />
               </div>
-              <Dropdown className={styles['dropdown']} onSelect={handleCategorySelect}>
+              <Dropdown  className={styles['dropdown']} onSelect={handleCategorySelect}>
                 <Dropdown.Toggle
                     className={styles['dropdown__toggle']}
+                    variant="success"
 
                 >   
                     {statusValue}
@@ -182,27 +202,21 @@ const AnswListPage = () => {
                     </Dropdown.Menu>
                 </Dropdown>
                 
-              {/*<Button
-                variant="primary"
-                type="submit"
+                
+                <Form.Control
+                type="text"
+                placeholder="Введите имя пользователя"
                 style={{
-                color: 'white',
-                backgroundColor: 'rgb(0, 102, 255)',
-                border: 'none',
-                height: '30px',
-                fontSize: '15px',
-                borderRadius: '10px',
-                width: '200px',
-               
-                fontFamily: 'sans-serif',
-                justifyContent: 'center', // Center the text horizontally
-                alignItems: 'center', // Center the text vertically
-                marginBottom: '40px'
+                    backgroundColor: 'white',
+                    height: '40px',
+                    width: '600px',
+                    marginBottom: '40px',
+                    //marginLeft: "100px"
                 }}
-                onClick={() => handleSearchButtonClick()}
-            >
-                Поиск
-            </Button>*/}
+                
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {dispatch(setCurrentUserFilterAction(event.target.value))}}
+                value={userFilter} 
+                />
             </Form.Group>)}
                 <AnswTab answ={answ}/>
                 

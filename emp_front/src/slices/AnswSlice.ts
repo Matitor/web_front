@@ -18,7 +18,9 @@ interface AnswData {
   status: string;
   created_at: string;
   processed_at: string;
-  completed_at: string
+  completed_at: string;
+  suite:string;
+  email:string;
 }
 
 
@@ -62,7 +64,9 @@ const dataSlice = createSlice({
       state.answ = action.payload;
       console.log('answ is', action.payload)
     },
-    
+    setCurrentUserFilter(state, action: PayloadAction<string>) {
+      state.userName = action.payload;
+    },
     setStartFilter(state, action: PayloadAction<string>) {
       state.start = action.payload;
     },
@@ -94,13 +98,14 @@ export const useEndFilter = () =>
   useSelector((state: { answData: DataState }) => state.answData.end);
 export const useStatusFilter = () =>
   useSelector((state: { answData: DataState }) => state.answData.status);
-
+  export const useCurrentUserFilter = () =>
+  useSelector((state: { answData: DataState }) => state.answData.userName);
 export const {
     setCurrentAnswId: setCurrentAnswIdAction,
     setCurrentAnswDate: setCurrentAnswDateAction,
     setVacancyFromAnsw: setVacancyFromAnswAction,
     setAnsw: setAnswAction,
-   
+    setCurrentUserFilter: setCurrentUserFilterAction,
     setStartFilter: setStartFilterAction,
     setEndFilter: setEndilterAction,
     setStatusFilter: setStatusFilterAction,
