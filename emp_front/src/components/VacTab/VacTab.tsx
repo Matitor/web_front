@@ -76,14 +76,14 @@ const VacancyTable: React.FC<VacTableProps> = ({vacancies, className, flag}) => 
 
   return (
     <div className={styles.table__container}>
-      <Table responsive borderless className={styles.table__container} >
+      <Table responsive hover >
         <thead>
           <tr className={styles.table__container}>
-            <th>№</th>
-            <th>Название</th>
-            <th>Компания</th>
-            <th>Зарплата</th>
-            {!flag && <th></th>}
+            <th style={{backgroundColor:'lightgray'}}>№</th>
+            <th style={{backgroundColor:'lightgray'}}>Название</th>
+            <th style={{backgroundColor:'lightgray'}}>Компания</th>
+            <th style={{backgroundColor:'lightgray'}}>Зарплата</th>
+            {!flag && <th style={{backgroundColor:'lightgray'}}></th>}
           </tr>
         </thead>
         <tbody className={styles.table__container}>
@@ -95,7 +95,7 @@ const VacancyTable: React.FC<VacTableProps> = ({vacancies, className, flag}) => 
               {vacancy.price_min && vacancy.price_max &&<td>{vacancy.price_min} - {vacancy.price_max} ₽</td>}
               {!vacancy.price_min && vacancy.price_max &&<td>до {vacancy.price_max} ₽</td>}
               {vacancy.price_min && !vacancy.price_max &&<td>от {vacancy.price_min} ₽</td>}
-              {!flag && <td className={styles.table__action}><Button  onClick={() => handleDeleteButtonClick(vacancy.id)}>🗑️</Button></td>}
+              {!flag && <td className={styles.table__action}><Button variant="danger"  onClick={() => handleDeleteButtonClick(vacancy.id)}>🗑️</Button></td>}
             </tr>
           ))}
         </tbody>

@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import ModalWindow from '../ModalWindow/ModalWindow';
 import { Link } from 'react-router-dom';
 import Image from 'react-bootstrap/Image'
+
 //import { title } from 'process';
 
 export type ReceivedVacancyData = {
@@ -448,6 +449,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
 
           <input
               type="text"
+              style={{background:'white'}}
               onChange={(event) => {
                 const updatedDictionary = {
                   ...dictionary,
@@ -461,6 +463,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
 
             <input
               type="number"
+              style={{background:'white'}}
               onChange={(event) => {
                 const updatedDictionary = {
                   ...dictionary,
@@ -473,6 +476,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
             />
             <input
               type="number"
+              style={{background:'white'}}
               onChange={(event) => {
                 const updatedDictionary = {
                   ...dictionary,
@@ -485,6 +489,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
             />
             <input
               type="text"
+              style={{background:'white'}}
               onChange={(event) => {
                 const updatedDictionary = {
                   ...dictionary,
@@ -496,6 +501,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
             />
             <input
               type="text"
+              style={{background:'white'}}
               onChange={(event) => {
                 const updatedDictionary = {
                   ...dictionary,
@@ -507,6 +513,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
             />
             <input
               type="text"
+              style={{background:'white'}}
               onChange={(event) => {
                 const updatedDictionary = {
                   ...dictionary,
@@ -518,7 +525,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
               required
             />
             <textarea
-             
+             style={{background:'white'}}
              onChange={(event) => {
               const updatedDictionary = {
                 ...dictionary,
@@ -530,6 +537,7 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
            />
            <input
             type="file"
+            style={{background:'white',marginBottom:'10px'}}
             onChange={(event) => {
               if (event.target.files && event.target.files.length > 0) {
               // Assuming 'setDictionary' updates the dictionary with the uploaded file
@@ -542,8 +550,8 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
             placeholder="Фото вакансии"
             />
            {/* Добавьте остальные поля */}
-           <button type='submit' className='btn'  onClick={() => postVacancy()}>Сохранить</button>
-           <button className='btn' onClick={() => {
+           <Button type='submit' variant="success" style={{marginBottom:'10px',marginLeft:'5px'}}  onClick={() => postVacancy()}>Сохранить</Button>
+           <Button variant="danger" style={{marginBottom:'10px',marginLeft:'5px'}} onClick={() => {
                       setCreateRow(false);
                       setDictionary({           
                         id: 0,
@@ -558,17 +566,17 @@ const CustomTable: React.FC<TableData> = ({columns, data, className}) => {
           adress: "",
           png:undefined,
                       });
-                  }}>Отменить</button>
+                  }}>Отменить</Button>
          </div>
         )}
         </div>
-        <Table hover>
+        <Table responsive hover>
             <thead>
-              <tr>
+              <tr >
                 {columns.map((column, index) => (
-                  <th key={index}>{column.title}</th>
+                  <th style={{backgroundColor:'lightgray'}}  key={index}>{column.title}</th>
                 ))}
-                {<th>Действия</th>}
+                {<th style={{backgroundColor:'lightgray'}}>Действия</th>}
               </tr>
             </thead>
             <tbody>

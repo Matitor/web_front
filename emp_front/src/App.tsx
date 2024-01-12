@@ -128,7 +128,7 @@ const getCurrentAnsw = async (id: number) => {
   }, [])
 
   return (
-    <div className='app'>
+    <div className='app' style={{minWidth:'1440px',minHeight:'847px'}}>
       <HashRouter>
           <Routes>
              <Route path='/' element={<div><h1>Это наша стартовая страница</h1> <Link to='/vacancies'>another page</Link></div>} />

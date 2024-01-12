@@ -138,8 +138,8 @@ const AnswPage = () => {
           />
           </div>
           <div className={styles['application__page-info-btns']}>
-          <Link to='/vacancies'><Button onClick={() => handleSendButtonClick()} className={styles['application__page-info-btn']} style={{ display: currentStatus === 'registered' ? 'block' : 'none' }}>Отправить</Button></Link>
-        <Link to='/vacancies'><Button onClick={() => handleDeleteButtonClick()} className={styles['application__page-info-btn']} style={{ display: currentStatus === 'registered' ? 'block' : 'none' }}>Удалить</Button></Link>
+          <Link to='/vacancies'><Button variant="success" onClick={() => handleSendButtonClick()}  style={{ height:'45px',width:'120px', display: currentStatus === 'registered' ? 'block' : 'none' }}>Отправить</Button></Link>
+        <Link to='/vacancies'><Button variant="danger" onClick={() => handleDeleteButtonClick()}  style={{marginBottom:'100px', height:'45px',width:'120px', display: currentStatus === 'registered' ? 'block' : 'none' }}>Удалить</Button></Link>
       </div>
       </div>
   : <h5 className={styles['application__page-subtitle']}>

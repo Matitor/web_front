@@ -46,7 +46,7 @@ const dataSlice = createSlice({
     userName: undefined,
     start: undefined,
     end: undefined,
-    status:undefined,
+    status:"Не выбрано",
   } as DataState,
   reducers: {
     setCurrentAnswId(state, action: PayloadAction<number| null |undefined>) {
