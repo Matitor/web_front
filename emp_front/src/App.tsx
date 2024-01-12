@@ -5,7 +5,7 @@ import VacPage from './pages/VacPage/VacPage';
 //import DetaliedPage from 'pages/DetaliedPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import LoginPage from './pages/LoginPage/LoginPage';
-import CurAnswPage from './pages/CurAnswPage/CurAnswPage';
+//import CurAnswPage from './pages/CurAnswPage/CurAnswPage';
 import AnswerListPage from './pages/AnswListPage/AnswListPage';
 import AnswPage from './pages/AnswPage/AnswPage';
 import axios, {AxiosResponse} from 'axios';
