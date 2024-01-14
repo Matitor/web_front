@@ -6,7 +6,9 @@ import App from './App.tsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  //<React.StrictMode>
+  <div style={{background:'#e7e5e5', width:'100%'}}>
+  {/*//<React.StrictMode>*/}
     <App />
-  //</React.StrictMode>,
+  {/*//</React.StrictMode>,*/}
+  </div>
 )

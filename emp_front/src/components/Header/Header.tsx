@@ -13,7 +13,7 @@ const Header: React.FC = () => {
                     <Link className={styles.header__block} to='/'>О нас</Link>
                     <Link className={styles.header__block} to='/'>Поддержка</Link>
                 </div> */}
-                <Link to='/' className={styles.header__profile}>Личный кабинет</Link>
+                <Link to='/' className={styles.header__profile}>Вход</Link>
                 <Link to='/' className={styles.header__profile}>🔍 Поиск</Link>
             </div>
         </div>

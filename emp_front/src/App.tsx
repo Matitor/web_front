@@ -13,8 +13,8 @@ function App() {
         <HashRouter>
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/vacancy" element={<Navigate to="/" replace />} />
-                <Route path="/vacancy">
+                <Route path="/vacancies" element={<Navigate to="/" replace />} />
+                <Route path="/vacancies">
                   <Route path=":id" element={<VacPage />} />
                 </Route>
 

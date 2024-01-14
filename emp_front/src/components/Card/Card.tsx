@@ -21,25 +21,27 @@ const OneCard: React.FC<CardProps> = ({id,pic,name,desc,price_min,price_max,comp
   
   return (
     <Card className={styles.card}>
-      <Image className={styles.card__image} onClick={onImageClick} src={pic ? pic : "https://www.solaredge.com/us/sites/nam/files/Placeholders/Placeholder-4-3.jpg"}/>
-      <Card.Header className={styles.card__container_name}>{name}</Card.Header>
-      <Card.Body>
-        <Card.Title className={styles.card__container_price}>{price_min && price_max &&<div>{price_min} - {price_max} ₽</div>}</Card.Title>
-        <Card.Title className={styles.card__container_price}>{!price_min && price_max &&<div>до {price_max} ₽</div>}</Card.Title>
-        <Card.Title className={styles.card__container_price}>{price_min && !price_max &&<div>от {price_min} ₽</div>}</Card.Title>
-        <Card.Text className={styles.card__container_desc}>
-          {desc}
-        </Card.Text>
+    <Link to={`/vacancies/${id}`}>
+    <Image className={styles.card__image} onClick={onImageClick} src={pic ? pic : "https://www.solaredge.com/us/sites/nam/files/Placeholders/Placeholder-4-3.jpg"}/>
+    <Card.Header className={styles.card__container_name}>{name}</Card.Header>
+    </Link>
+    <Card.Body>
+      <Card.Title className={styles.card__container_price}>{price_min && price_max &&<div>{price_min} - {price_max} ₽</div>}</Card.Title>
+      <Card.Title className={styles.card__container_price}>{!price_min && price_max &&<div>до {price_max} ₽</div>}</Card.Title>
+      <Card.Title className={styles.card__container_price}>{price_min && !price_max &&<div>от {price_min} ₽</div>}</Card.Title>
+      <Card.Text className={styles.card__container_desc}>
+        {desc}
+      </Card.Text>
 
-        <Card.Text className={styles.card__container_company}>
-        {company}
-        </Card.Text>
-        <Link to={`/vacancy/${id}`}>
-          <Button onClick={onButtonClick} className={styles.card__button} variant="primary">Подробнее</Button>
-          
-        </Link>
-      </Card.Body>
-    </Card>
+      <Card.Text className={styles.card__container_company}>
+      {company}
+      </Card.Text>
+      
+     
+      
+    </Card.Body>
+    
+  </Card>
   );
 }
 
