@@ -20,6 +20,7 @@ const Header: React.FC<headerProps> = ({flag}) => {
     const [isProfileButtonClicked, setIsProfileButtonClicked] = useState(false);
     const [IsAnsw, setIsAnsw] = useState(false);
     const isUserAuth = useIsAuth();
+    //const user = useUser()
     const answ = useCurrentAnswId();
     const IsMod = useIsMod();
     const vacanciesFromApplications = useVacancyFromAnsw();
@@ -92,7 +93,9 @@ const Header: React.FC<headerProps> = ({flag}) => {
             </div>
           )}
                 {isUserAuth ? <div className={styles.header__profile} onClick={handleProfileButtonClick}/> : <Link to='/login' className={styles.header__profile}>Вход<div/></Link>}
+                
                 <Link to='/vacancies' className={styles.header__profile}>🔍 Поиск</Link>
+                {isUserAuth && (<div className={styles.header_user}>{user.email}</div>)}
             </div>
         </div>
     )
