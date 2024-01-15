@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
@@ -17,7 +17,7 @@ export type CardProps = {
   onImageClick?: React.MouseEventHandler;
 };
 
-const OneCard: React.FC<CardProps> = ({id,pic,name,desc,price_min,price_max,company, onButtonClick, onImageClick }) => {
+const OneCard: React.FC<CardProps> = ({id,pic,name,desc,price_min,price_max,company,  onImageClick }) => {
   
   return (
     <Card className={styles.card}>
